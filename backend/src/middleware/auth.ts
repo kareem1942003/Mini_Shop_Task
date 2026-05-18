@@ -6,7 +6,7 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
   try {
     const authHeader = request.headers.authorization;
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
-      return reply.status(401).send(errorResponse('Unauthorized: Missing or invalid token', 'UNAUTHORIZED'));
+      return reply.status(401).send(errorResponse('Missing or invalid token', 'Unauthorized', 401));
     }
 
     const token = authHeader.split(' ')[1];
@@ -15,6 +15,6 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
     // Attach user to request
     request.user = decoded;
   } catch (error) {
-    return reply.status(401).send(errorResponse('Unauthorized: Invalid or expired token', 'UNAUTHORIZED'));
+    return reply.status(401).send(errorResponse('Invalid or expired token', 'Unauthorized', 401));
   }
 }

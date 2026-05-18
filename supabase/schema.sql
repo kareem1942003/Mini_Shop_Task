@@ -83,11 +83,11 @@ BEGIN
   VALUES (
     new.id, 
     new.raw_user_meta_data->>'name', 
-    COALESCE((new.raw_user_meta_data->>'role')::user_role, 'customer'::user_role)
+    COALESCE((new.raw_user_meta_data->>'role')::public.user_role, 'customer'::public.user_role)
   );
   RETURN new;
 END;
-$$ LANGUAGE plpgsql SECURITY DEFINER;
+$$ LANGUAGE plpgsql SECURITY DEFINER SET search_path = public;
 
 CREATE TRIGGER on_auth_user_created
   AFTER INSERT ON auth.users

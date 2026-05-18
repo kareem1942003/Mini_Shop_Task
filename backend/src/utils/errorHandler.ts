@@ -1,26 +1,41 @@
 import { FastifyError, FastifyReply, FastifyRequest } from 'fastify';
 import { ZodError } from 'zod';
+import { AppError } from './AppError';
 import { errorResponse } from './response';
 
-export function errorHandler(error: FastifyError, request: FastifyRequest, reply: FastifyReply) {
+export function errorHandler(error: FastifyError | AppError, request: FastifyRequest, reply: FastifyReply) {
   request.log.error(error);
 
-  // Handle Zod Validation Errors
+  // 1. Zod validation errors (from fastify-type-provider-zod)
   if (error instanceof ZodError || error.code === 'FST_ERR_VALIDATION') {
-    return reply.status(400).send(
-      errorResponse('Validation failed', 'VALIDATION_ERROR', error.validation || error)
-    );
+    let message = error.message;
+
+    if (error instanceof ZodError) {
+      message = error.issues.map((e) => e.message).join(', ');
+    } else if ((error as FastifyError).validation) {
+      message = ((error as FastifyError).validation as any[]).map((e) => e.message || e.keyword).join(', ');
+    }
+
+    return reply.status(400).send(errorResponse(message, 'Bad Request', 400));
   }
 
-  // Handle Custom App Errors
-  if (error.statusCode) {
+  // 2. Our custom AppError
+  if (error instanceof AppError) {
     return reply.status(error.statusCode).send(
-      errorResponse(error.message, error.name || 'HTTP_ERROR')
+      errorResponse(error.message, error.code, error.statusCode)
     );
   }
 
-  // Handle Generic Internal Errors
-  return reply.status(500).send(
-    errorResponse('An unexpected error occurred', 'INTERNAL_SERVER_ERROR')
+  // 3. Fastify native errors (404, etc.)
+  const statusCode = error.statusCode || 500;
+  const title =
+    statusCode === 401 ? 'Unauthorized'
+    : statusCode === 403 ? 'Forbidden'
+    : statusCode === 404 ? 'Not Found'
+    : statusCode === 400 ? 'Bad Request'
+    : 'Internal Server Error';
+
+  return reply.status(statusCode).send(
+    errorResponse(error.message || 'An unexpected error occurred', title, statusCode)
   );
 }

@@ -6,13 +6,10 @@ export function successResponse<T>(data: T, message: string = 'Success') {
   };
 }
 
-export function errorResponse(message: string, code: string = 'INTERNAL_SERVER_ERROR', details?: any) {
+export function errorResponse(message: string, errorTitle: string = 'Bad Request', statusCode: number = 400) {
   return {
-    success: false,
-    error: {
-      code,
-      message,
-      details,
-    },
+    statusCode,
+    error: errorTitle,
+    message,
   };
 }

@@ -10,6 +10,6 @@ export async function requireAdmin(request: FastifyRequest, reply: FastifyReply)
   if (reply.sent) return;
 
   if (request.user.role !== 'admin') {
-    return reply.status(403).send(errorResponse('Forbidden: Admin access required', 'FORBIDDEN'));
+    return reply.status(403).send(errorResponse('Admin access required', 'Forbidden', 403));
   }
 }
