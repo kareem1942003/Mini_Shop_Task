@@ -87,8 +87,8 @@ const Dashboard = () => {
                     <span className={`px-2.5 py-1 rounded-full text-xs font-medium capitalize
                       ${order.status === 'delivered' ? 'bg-green-100 text-green-700' :
                         order.status === 'pending' ? 'bg-amber-100 text-amber-700' :
-                        order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
-                        'bg-blue-100 text-blue-700'}`}
+                          order.status === 'cancelled' ? 'bg-red-100 text-red-700' :
+                            'bg-blue-100 text-blue-700'}`}
                     >
                       {order.status}
                     </span>

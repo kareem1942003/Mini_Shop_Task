@@ -24,7 +24,7 @@ export default function HomeScreen() {
     limit: 50,
     search: search || undefined,
     category_id: selectedCategory,
-  });
+  }, { pollingInterval: 3000 });
   const { data: categoriesData, refetch: refetchCategories } = useGetCategoriesQuery();
   const [isRefreshing, setIsRefreshing] = useState(false);
 

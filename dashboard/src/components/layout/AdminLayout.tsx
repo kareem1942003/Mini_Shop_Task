@@ -1,13 +1,55 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { logout } from '../../store/slices/authSlice';
 import { LayoutDashboard, ShoppingBag, ShoppingCart, LogOut, Menu, X } from 'lucide-react';
+import { supabase } from '../../lib/supabase';
+import { baseApi } from '../../store/api/baseApi';
 
 const AdminLayout = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  useEffect(() => {
+    // 1. Subscribe to orders table changes in realtime
+    const ordersChannel = supabase
+      .channel('orders-realtime-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'orders' },
+        (payload) => {
+          console.log('Realtime Order Change detected:', payload);
+          // Invalidate Orders cache tags to force a refresh on all order hooks
+          dispatch(baseApi.util.invalidateTags(['Orders']));
+        }
+      )
+      .subscribe((status) => {
+        console.log('Realtime Orders subscription status:', status);
+      });
+
+    // 2. Subscribe to products table changes in realtime
+    const productsChannel = supabase
+      .channel('products-realtime-changes')
+      .on(
+        'postgres_changes',
+        { event: '*', schema: 'public', table: 'products' },
+        (payload) => {
+          console.log('Realtime Product Change detected:', payload);
+          // Invalidate Products cache tags to force a refresh on all product hooks
+          dispatch(baseApi.util.invalidateTags(['Products']));
+        }
+      )
+      .subscribe((status) => {
+        console.log('Realtime Products subscription status:', status);
+      });
+
+    // Cleanup subscriptions on component unmount
+    return () => {
+      supabase.removeChannel(ordersChannel);
+      supabase.removeChannel(productsChannel);
+    };
+  }, [dispatch]);
 
   const handleLogout = () => {
     dispatch(logout());

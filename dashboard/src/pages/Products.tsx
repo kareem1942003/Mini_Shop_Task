@@ -304,7 +304,7 @@ const Products = () => {
                     type="text"
                     required
                     value={formData.name}
-                    onChange={(e) => setFormData({...formData, name: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     placeholder="e.g. Wireless Headphones"
                   />
@@ -316,7 +316,7 @@ const Products = () => {
                     required
                     rows={3}
                     value={formData.description}
-                    onChange={(e) => setFormData({...formData, description: e.target.value})}
+                    onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none resize-none"
                     placeholder="Product details..."
                   />
@@ -330,7 +330,7 @@ const Products = () => {
                       step="0.01"
                       required
                       value={formData.price}
-                      onChange={(e) => setFormData({...formData, price: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, price: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                       placeholder="0.00"
                     />
@@ -341,7 +341,7 @@ const Products = () => {
                     <select
                       required
                       value={formData.category_id}
-                      onChange={(e) => setFormData({...formData, category_id: e.target.value})}
+                      onChange={(e) => setFormData({ ...formData, category_id: e.target.value })}
                       className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 outline-none"
                     >
                       <option value="" disabled>Select a category</option>

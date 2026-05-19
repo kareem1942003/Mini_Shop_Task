@@ -11,7 +11,7 @@ const statusColors: Record<string, { bg: string; text: string }> = {
 };
 
 export default function OrdersScreen() {
-  const { data, isLoading, refetch } = useGetMyOrdersQuery({ page: 1, limit: 50 });
+  const { data, isLoading, refetch } = useGetMyOrdersQuery({ page: 1, limit: 50 }, { pollingInterval: 3000 });
   const orders = data?.data?.orders || [];
 
   const renderOrder = ({ item }: { item: any }) => {
