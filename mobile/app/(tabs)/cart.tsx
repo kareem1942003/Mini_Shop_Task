@@ -107,7 +107,7 @@ export default function CartScreen() {
             showsVerticalScrollIndicator={false}
           />
 
-          {/* Checkout Footer */}
+          {}
           <View style={styles.footer}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Total</Text>

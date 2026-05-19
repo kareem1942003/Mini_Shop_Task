@@ -112,7 +112,7 @@ const Orders = () => {
           )}
         </div>
 
-        {/* Pagination */}
+        {}
         {pagination && pagination.totalPages > 1 && (
           <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
             <span className="text-sm text-gray-500">
@@ -138,7 +138,7 @@ const Orders = () => {
         )}
       </div>
 
-      {/* --- Order Detail Modal --- */}
+      {}
       {selectedOrder && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col max-h-[90vh]">
@@ -153,7 +153,7 @@ const Orders = () => {
             </div>
 
             <div className="p-6 overflow-y-auto space-y-6">
-              {/* Order Info */}
+              {}
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 <div>
                   <p className="text-xs font-medium text-gray-500">Customer</p>
@@ -175,7 +175,7 @@ const Orders = () => {
                 </div>
               </div>
 
-              {/* Order Items */}
+              {}
               <div>
                 <h3 className="text-sm font-semibold text-gray-900 mb-3">Order Items</h3>
                 <div className="space-y-3">
@@ -198,7 +198,7 @@ const Orders = () => {
                 </div>
               </div>
 
-              {/* Total Summary */}
+              {}
               <div className="flex justify-between items-center pt-4 border-t border-gray-200">
                 <span className="text-base font-semibold text-gray-700">Grand Total</span>
                 <span className="text-xl font-bold text-gray-900">${selectedOrder.total_amount}</span>

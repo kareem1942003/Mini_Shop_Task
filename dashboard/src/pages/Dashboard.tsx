@@ -9,12 +9,12 @@ const Dashboard = () => {
 
   const orders = ordersData?.data?.orders || [];
 
-  // Calculate KPIs
+  
   const totalRevenue = orders
     .filter((o: any) => o.status !== 'cancelled')
     .reduce((sum: number, o: any) => sum + o.total_amount, 0);
 
-  // Orders Today
+  
   const today = new Date().toDateString();
   const ordersToday = orders.filter(
     (o: any) => new Date(o.created_at).toDateString() === today
@@ -48,7 +48,7 @@ const Dashboard = () => {
     <div className="space-y-6">
       <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
 
-      {/* KPI Cards */}
+      {}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
         {kpis.map((kpi, idx) => (
           <div key={idx} className="bg-white rounded-xl p-5 md:p-6 shadow-sm border border-gray-100 flex items-center space-x-4 hover:shadow-md transition-shadow">
@@ -63,7 +63,7 @@ const Dashboard = () => {
         ))}
       </div>
 
-      {/* Recent Orders Table Preview */}
+      {}
       <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
         <div className="px-6 py-4 border-b border-gray-100">
           <h2 className="text-lg font-semibold text-gray-900">Recent Orders</h2>

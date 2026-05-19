@@ -2,14 +2,9 @@ import { supabase } from '../../lib/supabase';
 import { AppError } from '../../utils/AppError';
 import { CreateOrderInput, OrderQuery } from './orders.schemas';
 
-/**
- * Create an order transactionally:
- * 1. Validate all products exist and are active
- * 2. Calculate totals on the backend (never trust client prices)
- * 3. Insert order + order_items
- */
+
 export async function createOrder(userId: string, input: CreateOrderInput) {
-  // 1. Fetch all referenced products in a single query
+  
   const productIds = input.items.map((item) => item.product_id);
 
   const { data: products, error: productsError } = await supabase
@@ -19,7 +14,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
   if (productsError) throw new AppError(productsError.message, 500);
 
-  // 2. Validate all products exist and are active
+  
   const productMap = new Map(products?.map((p) => [p.id, p]));
 
   for (const item of input.items) {
@@ -32,7 +27,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     }
   }
 
-  // 3. Calculate total securely on the backend
+  
   let totalAmount = 0;
   const orderItems = input.items.map((item) => {
     const product = productMap.get(item.product_id)!;
@@ -45,9 +40,9 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     };
   });
 
-  totalAmount = Math.round(totalAmount * 100) / 100; // Avoid floating point issues
+  totalAmount = Math.round(totalAmount * 100) / 100; 
 
-  // 4. Insert the order
+  
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert({
@@ -60,7 +55,7 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
 
   if (orderError || !order) throw new AppError('Failed to create order', 500);
 
-  // 5. Insert order items
+  
   const itemsWithOrderId = orderItems.map((item) => ({
     ...item,
     order_id: order.id,
@@ -71,18 +66,16 @@ export async function createOrder(userId: string, input: CreateOrderInput) {
     .insert(itemsWithOrderId);
 
   if (itemsError) {
-    // Rollback: delete the order if items failed
+    
     await supabase.from('orders').delete().eq('id', order.id);
     throw new AppError('Failed to create order items', 500);
   }
 
-  // 6. Return the full order
+  
   return getOrderById(order.id);
 }
 
-/**
- * Get the current user's orders (paginated).
- */
+
 export async function getMyOrders(userId: string, query: OrderQuery) {
   const { page, limit, status } = query;
   const from = (page - 1) * limit;
@@ -114,9 +107,7 @@ export async function getMyOrders(userId: string, query: OrderQuery) {
   };
 }
 
-/**
- * Get all orders — admin only (paginated).
- */
+
 export async function getAllOrders(query: OrderQuery) {
   const { page, limit, status } = query;
   const from = (page - 1) * limit;
@@ -147,9 +138,7 @@ export async function getAllOrders(query: OrderQuery) {
   };
 }
 
-/**
- * Get a single order by ID with full items.
- */
+
 export async function getOrderById(id: string) {
   const { data, error } = await supabase
     .from('orders')
@@ -161,9 +150,7 @@ export async function getOrderById(id: string) {
   return data;
 }
 
-/**
- * Update order status — admin only.
- */
+
 export async function updateOrderStatus(id: string, status: string) {
   const { data: existing } = await supabase
     .from('orders')

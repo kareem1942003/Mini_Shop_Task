@@ -10,7 +10,7 @@ import Dashboard from './pages/Dashboard';
 import Products from './pages/Products';
 import Orders from './pages/Orders';
 
-// Protected Route Wrapper
+
 const ProtectedRoute = ({ children }: { children: ReactElement }) => {
   const isAuthenticated = useSelector((state: RootState) => state.auth.isAuthenticated);
 

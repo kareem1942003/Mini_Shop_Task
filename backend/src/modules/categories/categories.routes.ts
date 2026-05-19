@@ -17,7 +17,7 @@ import {
 export default async function categoryRoutes(app: FastifyInstance) {
   const typedApp = app.withTypeProvider<ZodTypeProvider>();
 
-  // ── Public ─────────────────────────────────────────────
+  
   typedApp.get('/', {
     schema: { description: 'List all categories', tags: ['Categories'] },
   }, listCategoriesHandler);
@@ -26,7 +26,7 @@ export default async function categoryRoutes(app: FastifyInstance) {
     schema: { params: categoryParamsSchema, description: 'Get category by ID', tags: ['Categories'] },
   }, getCategoryHandler);
 
-  // ── Admin Only ─────────────────────────────────────────
+  
   typedApp.post('/', {
     preHandler: [requireAdmin],
     schema: { body: createCategorySchema, description: 'Create a category', tags: ['Categories'] },

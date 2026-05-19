@@ -6,11 +6,7 @@ import {
   UpdateProductInput,
 } from './products.schemas';
 
-/**
- * List products with optional search, category filter, and pagination.
- * When show_all is true (admin), returns all products including inactive.
- * When show_all is false (public/mobile), only returns active products.
- */
+
 export async function listProducts(query: ProductQuery) {
   const { page, limit, search, category_id, show_all } = query;
   const from = (page - 1) * limit;
@@ -22,7 +18,7 @@ export async function listProducts(query: ProductQuery) {
     .order('created_at', { ascending: false })
     .range(from, to);
 
-  // Only filter by is_active for public requests (not admin)
+  
   if (!show_all) {
     builder = builder.eq('is_active', true);
   }
@@ -50,9 +46,7 @@ export async function listProducts(query: ProductQuery) {
   };
 }
 
-/**
- * Get a single product by ID (must be active).
- */
+
 export async function getProductById(id: string) {
   const { data, error } = await supabase
     .from('products')
@@ -65,11 +59,9 @@ export async function getProductById(id: string) {
   return data;
 }
 
-/**
- * Create a new product (admin only).
- */
+
 export async function createProduct(input: CreateProductInput) {
-  // Validate that the referenced category exists
+  
   const { data: category } = await supabase
     .from('categories')
     .select('id')
@@ -88,11 +80,9 @@ export async function createProduct(input: CreateProductInput) {
   return data;
 }
 
-/**
- * Update a product (admin only).
- */
+
 export async function updateProduct(id: string, input: UpdateProductInput) {
-  // Check product exists (including inactive for admin)
+  
   const { data: existing } = await supabase
     .from('products')
     .select('id')
@@ -101,7 +91,7 @@ export async function updateProduct(id: string, input: UpdateProductInput) {
 
   if (!existing) throw new AppError('Product not found', 404);
 
-  // If updating category, validate it exists
+  
   if (input.category_id) {
     const { data: category } = await supabase
       .from('categories')
@@ -123,9 +113,7 @@ export async function updateProduct(id: string, input: UpdateProductInput) {
   return data;
 }
 
-/**
- * Soft-delete a product by setting is_active = false.
- */
+
 export async function deleteProduct(id: string) {
   const { data: existing } = await supabase
     .from('products')
@@ -145,10 +133,7 @@ export async function deleteProduct(id: string) {
   return true;
 }
 
-/**
- * Upload a product image to Supabase Storage.
- * Returns the public URL.
- */
+
 export async function uploadProductImage(fileBuffer: Buffer, fileName: string, mimeType: string) {
   const uniqueName = `${Date.now()}-${fileName}`;
 

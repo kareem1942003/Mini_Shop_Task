@@ -24,7 +24,7 @@ export async function getCategoryById(id: string) {
 }
 
 export async function createCategory(input: CreateCategoryInput) {
-  // Check for duplicate slug
+  
   const { data: existing } = await supabase
     .from('categories')
     .select('id')
@@ -44,10 +44,10 @@ export async function createCategory(input: CreateCategoryInput) {
 }
 
 export async function updateCategory(id: string, input: UpdateCategoryInput) {
-  // Check existence
+  
   await getCategoryById(id);
 
-  // If slug is being updated, check for duplicates
+  
   if (input.slug) {
     const { data: existing } = await supabase
       .from('categories')
@@ -73,7 +73,7 @@ export async function updateCategory(id: string, input: UpdateCategoryInput) {
 export async function deleteCategory(id: string) {
   await getCategoryById(id);
 
-  // Check if any products reference this category
+  
   const { count } = await supabase
     .from('products')
     .select('id', { count: 'exact', head: true })

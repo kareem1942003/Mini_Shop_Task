@@ -1,7 +1,4 @@
-/**
- * Custom application error class that works properly with Fastify's error handler.
- * Always throw AppError instead of plain objects to ensure consistent error handling.
- */
+
 export class AppError extends Error {
   public statusCode: number;
   public code: string;
@@ -11,7 +8,7 @@ export class AppError extends Error {
     this.name = 'AppError';
     this.statusCode = statusCode;
     this.code = code || this.deriveCode(statusCode);
-    // Fix prototype chain for instanceof checks
+    
     Object.setPrototypeOf(this, AppError.prototype);
   }
 

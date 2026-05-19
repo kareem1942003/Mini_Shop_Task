@@ -17,27 +17,27 @@ export function buildApp() {
     },
   }).withTypeProvider<ZodTypeProvider>();
 
-  // Type Provider Compilers
+  
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);
 
-  // Global Error Handler
+  
   app.setErrorHandler(errorHandler);
 
-  // Plugins
+  
   app.register(cors, { 
     origin: '*',
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
     allowedHeaders: ['Content-Type', 'Authorization', 'Accept']
   });
-  app.register(multipart, { limits: { fileSize: 5 * 1024 * 1024 } }); // 5MB max
+  app.register(multipart, { limits: { fileSize: 5 * 1024 * 1024 } }); 
 
-  // Health Check
+  
   app.get('/health', async () => {
     return { status: 'ok', timestamp: new Date().toISOString() };
   });
 
-  // Route Registration
+  
   app.register(authRoutes, { prefix: '/api/v1/auth' });
   app.register(categoryRoutes, { prefix: '/api/v1/categories' });
   app.register(productRoutes, { prefix: '/api/v1/products' });

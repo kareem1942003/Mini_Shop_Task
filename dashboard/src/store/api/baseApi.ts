@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logout } from '../slices/authSlice';
 
-// Create a base API instance
+
 export const baseApi = createApi({
   reducerPath: 'api',
   baseQuery: async (args, api, extraOptions) => {
@@ -19,7 +19,7 @@ export const baseApi = createApi({
     const result = await rawBaseQuery(args, api, extraOptions);
 
     if (result.error && result.error.status === 401) {
-      // Auto logout on unauthorized
+      
       api.dispatch(logout());
     }
 

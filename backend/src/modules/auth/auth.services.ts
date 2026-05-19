@@ -3,10 +3,7 @@ import { signToken } from '../../utils/jwt';
 import { AppError } from '../../utils/AppError';
 import { RegisterInput, LoginInput, ForgotPasswordInput } from './auth.schemas';
 
-/**
- * Register a new user via Supabase Auth.
- * Role is always 'customer' — admin promotion is a separate operation.
- */
+
 export async function registerUser(input: RegisterInput) {
   const { data, error } = await supabase.auth.signUp({
     email: input.email,
@@ -14,7 +11,7 @@ export async function registerUser(input: RegisterInput) {
     options: {
       data: {
         name: input.name,
-        role: 'customer', // Hardcoded — never trust the client for role assignment
+        role: 'customer', 
       },
     },
   });
@@ -38,10 +35,7 @@ export async function registerUser(input: RegisterInput) {
   return { user: userPayload, token };
 }
 
-/**
- * Login with email/password.
- * Fetches the profile to get the authoritative role from the database.
- */
+
 export async function loginUser(input: LoginInput) {
   const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
     email: input.email,
@@ -52,7 +46,7 @@ export async function loginUser(input: LoginInput) {
     throw new AppError('Invalid email or password', 401, 'LOGIN_ERROR');
   }
 
-  // Fetch profile for the authoritative role
+  
   const { data: profile, error: profileError } = await supabase
     .from('profiles')
     .select('name, role')
@@ -77,9 +71,7 @@ export async function loginUser(input: LoginInput) {
   };
 }
 
-/**
- * Send a password-reset email via Supabase.
- */
+
 export async function resetPassword(input: ForgotPasswordInput) {
   const { error } = await supabase.auth.resetPasswordForEmail(input.email);
   if (error) {
@@ -88,9 +80,7 @@ export async function resetPassword(input: ForgotPasswordInput) {
   return true;
 }
 
-/**
- * Fetch the full profile for the currently authenticated user.
- */
+
 export async function getUserProfile(userId: string) {
   const { data: profile, error } = await supabase
     .from('profiles')

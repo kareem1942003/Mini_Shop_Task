@@ -71,13 +71,13 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView style={styles.container}>
-      {/* Header */}
+      {}
       <View style={styles.header}>
         <Text style={styles.logo}>OrderKing</Text>
         <Text style={styles.subtitle}>Find your favorite products</Text>
       </View>
 
-      {/* Search */}
+      {}
       <View style={styles.searchWrapper}>
         <TextInput
           style={styles.searchInput}
@@ -88,7 +88,7 @@ export default function HomeScreen() {
         />
       </View>
 
-      {/* Categories */}
+      {}
       <FlatList
         data={[{ id: 'all', name: 'All' }, ...categories]}
         horizontal
@@ -126,7 +126,7 @@ export default function HomeScreen() {
         }}
       />
 
-      {/* Products Grid */}
+      {}
       {isLoading ? (
         <View style={styles.loadingWrapper}>
           <ActivityIndicator size="large" color="#2563eb" />

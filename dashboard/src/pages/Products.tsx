@@ -27,14 +27,14 @@ const Products = () => {
   const pagination = data?.data?.pagination;
   const categories = categoriesData?.data || [];
 
-  // Modal States
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState<string>('');
 
-  // Form State
+  
   const [formData, setFormData] = useState({
     name: '',
     description: '',
@@ -121,7 +121,7 @@ const Products = () => {
     try {
       let finalImageUrl = formData.image_url;
 
-      // Upload new image if selected
+      
       if (imageFile) {
         const fd = new FormData();
         fd.append('file', imageFile);
@@ -257,7 +257,7 @@ const Products = () => {
           )}
         </div>
 
-        {/* Pagination */}
+        {}
         {pagination && pagination.totalPages > 1 && (
           <div className="px-6 py-4 border-t border-gray-100 flex items-center justify-between">
             <span className="text-sm text-gray-500">
@@ -283,7 +283,7 @@ const Products = () => {
         )}
       </div>
 
-      {/* --- Create/Edit Modal --- */}
+      {}
       {isModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-lg overflow-hidden flex flex-col max-h-[90vh]">
@@ -353,7 +353,7 @@ const Products = () => {
                   </div>
                 </div>
 
-                {/* Image Upload */}
+                {}
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Product Image</label>
                   <div className="flex items-center space-x-4">
@@ -409,7 +409,7 @@ const Products = () => {
         </div>
       )}
 
-      {/* --- Delete Confirmation Modal --- */}
+      {}
       {isDeleteModalOpen && (
         <div className="fixed inset-0 bg-black/50 backdrop-blur-sm flex items-center justify-center z-50 p-4">
           <div className="bg-white rounded-xl shadow-xl w-full max-w-sm overflow-hidden flex flex-col text-center">

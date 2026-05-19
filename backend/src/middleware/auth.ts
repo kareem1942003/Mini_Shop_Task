@@ -12,7 +12,7 @@ export async function requireAuth(request: FastifyRequest, reply: FastifyReply) 
     const token = authHeader.split(' ')[1];
     const decoded = verifyToken(token);
     
-    // Attach user to request
+    
     request.user = decoded;
   } catch (error) {
     return reply.status(401).send(errorResponse('Invalid or expired token', 'Unauthorized', 401));

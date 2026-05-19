@@ -19,7 +19,7 @@ import {
 export default async function productRoutes(app: FastifyInstance) {
   const typedApp = app.withTypeProvider<ZodTypeProvider>();
 
-  // ── Public ─────────────────────────────────────────────
+  
   typedApp.get('/', {
     schema: {
       querystring: productQuerySchema,
@@ -36,7 +36,7 @@ export default async function productRoutes(app: FastifyInstance) {
     },
   }, getProductHandler);
 
-  // ── Admin Only ─────────────────────────────────────────
+  
   typedApp.post('/', {
     preHandler: [requireAdmin],
     schema: {
@@ -65,7 +65,7 @@ export default async function productRoutes(app: FastifyInstance) {
     },
   }, deleteProductHandler);
 
-  // ── Image Upload (Admin Only) ─────────────────────────
+  
   typedApp.post('/upload', {
     preHandler: [requireAdmin],
     schema: {

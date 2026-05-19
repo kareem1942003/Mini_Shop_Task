@@ -60,7 +60,7 @@ export async function uploadImageHandler(request: FastifyRequest, reply: Fastify
   }
 
   const buffer = await file.toBuffer();
-  const maxSize = 5 * 1024 * 1024; // 5MB
+  const maxSize = 5 * 1024 * 1024; 
   if (buffer.length > maxSize) {
     throw new AppError('Image must be smaller than 5MB', 400);
   }

@@ -3,10 +3,10 @@ import { errorResponse } from '../utils/response';
 import { requireAuth } from './auth';
 
 export async function requireAdmin(request: FastifyRequest, reply: FastifyReply) {
-  // First ensure the user is authenticated
+  
   await requireAuth(request, reply);
   
-  // Check if response was already sent by requireAuth (e.g. error)
+  
   if (reply.sent) return;
 
   if (request.user.role !== 'admin') {

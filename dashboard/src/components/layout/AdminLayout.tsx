@@ -12,7 +12,7 @@ const AdminLayout = () => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   useEffect(() => {
-    // 1. Subscribe to orders table changes in realtime
+    
     const ordersChannel = supabase
       .channel('orders-realtime-changes')
       .on(
@@ -20,7 +20,7 @@ const AdminLayout = () => {
         { event: '*', schema: 'public', table: 'orders' },
         (payload) => {
           console.log('Realtime Order Change detected:', payload);
-          // Invalidate Orders cache tags to force a refresh on all order hooks
+          
           dispatch(baseApi.util.invalidateTags(['Orders']));
         }
       )
@@ -28,7 +28,7 @@ const AdminLayout = () => {
         console.log('Realtime Orders subscription status:', status);
       });
 
-    // 2. Subscribe to products table changes in realtime
+    
     const productsChannel = supabase
       .channel('products-realtime-changes')
       .on(
@@ -36,7 +36,7 @@ const AdminLayout = () => {
         { event: '*', schema: 'public', table: 'products' },
         (payload) => {
           console.log('Realtime Product Change detected:', payload);
-          // Invalidate Products cache tags to force a refresh on all product hooks
+          
           dispatch(baseApi.util.invalidateTags(['Products']));
         }
       )
@@ -44,7 +44,7 @@ const AdminLayout = () => {
         console.log('Realtime Products subscription status:', status);
       });
 
-    // Cleanup subscriptions on component unmount
+    
     return () => {
       supabase.removeChannel(ordersChannel);
       supabase.removeChannel(productsChannel);
@@ -103,12 +103,12 @@ const AdminLayout = () => {
 
   return (
     <div className="flex h-screen bg-gray-50">
-      {/* Desktop Sidebar */}
+      {}
       <aside className="hidden md:flex md:w-64 bg-white border-r border-gray-200 flex-col flex-shrink-0">
         <SidebarContent />
       </aside>
 
-      {/* Mobile Overlay */}
+      {}
       {sidebarOpen && (
         <div
           className="fixed inset-0 bg-black/40 z-40 md:hidden"
@@ -116,7 +116,7 @@ const AdminLayout = () => {
         />
       )}
 
-      {/* Mobile Sidebar Drawer */}
+      {}
       <aside
         className={`fixed inset-y-0 left-0 z-50 w-64 bg-white border-r border-gray-200 flex flex-col transform transition-transform duration-300 ease-in-out md:hidden ${
           sidebarOpen ? 'translate-x-0' : '-translate-x-full'
@@ -130,15 +130,15 @@ const AdminLayout = () => {
         <SidebarContent />
       </aside>
 
-      {/* Main Content */}
+      {}
       <div className="flex-1 flex flex-col overflow-hidden">
-        {/* Top Bar (mobile only) */}
+        {}
         <header className="md:hidden bg-white border-b border-gray-200 px-4 py-3 flex items-center justify-between">
           <button onClick={() => setSidebarOpen(true)} className="text-gray-700 cursor-pointer">
             <Menu size={24} />
           </button>
           <h1 className="text-lg font-bold text-blue-600">OrderKing</h1>
-          <div className="w-6" /> {/* Spacer for centering */}
+          <div className="w-6" /> {}
         </header>
 
         <main className="flex-1 overflow-y-auto p-4 md:p-8">

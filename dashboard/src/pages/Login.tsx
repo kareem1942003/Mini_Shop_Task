@@ -19,7 +19,7 @@ const Login = () => {
     try {
       const result = await login({ email, password }).unwrap();
       
-      // Verify user is admin
+      
       if (result.data.user.role !== 'admin') {
         toast.error('Access denied. Admin privileges required.');
         return;

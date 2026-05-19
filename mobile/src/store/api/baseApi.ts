@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
 import { logout } from '../slices/authSlice';
 
-const API_URL = process.env.EXPO_PUBLIC_API_URL || 'http://localhost:3000/api/v1';
+const API_URL = ((globalThis as any).process?.env?.EXPO_PUBLIC_API_URL) || 'http://localhost:3000/api/v1';
 
 export const baseApi = createApi({
   reducerPath: 'api',

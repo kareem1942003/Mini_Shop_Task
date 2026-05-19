@@ -18,7 +18,7 @@ import {
 export default async function orderRoutes(app: FastifyInstance) {
   const typedApp = app.withTypeProvider<ZodTypeProvider>();
 
-  // ── Customer Routes (Authenticated) ────────────────────
+  
   typedApp.post('/', {
     preHandler: [requireAuth],
     schema: {
@@ -37,7 +37,7 @@ export default async function orderRoutes(app: FastifyInstance) {
     },
   }, myOrdersHandler);
 
-  // ── Admin Routes ───────────────────────────────────────
+  
   typedApp.get('/', {
     preHandler: [requireAdmin],
     schema: {

@@ -16,14 +16,14 @@ const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
 async function checkEnum() {
   console.log('Querying pg_enum to find order_status enum values...');
-  const { data, error } = await supabase.rpc('get_enum_values'); // We might not have this RPC. Let's run a raw query using a select or try to insert 'confirmed'!
+  const { data, error } = await supabase.rpc('get_enum_values'); 
   
-  // Alternative: Try to insert a mock order with status 'confirmed' using service role.
+  
   console.log("Attempting to insert a test order with status 'confirmed'...");
   const { data: order, error: orderError } = await supabase
     .from('orders')
     .insert({
-      user_id: 'd28fabab-7ca5-4a14-9fa6-e19839273997', // Use any valid user_id or the one we found in seed
+      user_id: 'd28fabab-7ca5-4a14-9fa6-e19839273997', 
       status: 'confirmed',
       total_amount: 10.00
     })
@@ -33,7 +33,7 @@ async function checkEnum() {
     console.log("❌ Failed to insert 'confirmed' status order! Error:", orderError.message);
   } else {
     console.log("✅ Successfully inserted 'confirmed' status order! Full order:", order);
-    // Cleanup
+    
     await supabase.from('orders').delete().eq('id', order[0].id);
   }
 
@@ -51,7 +51,7 @@ async function checkEnum() {
     console.log("❌ Failed to insert 'processing' status order! Error:", orderProcError.message);
   } else {
     console.log("✅ Successfully inserted 'processing' status order! Full order:", orderProc);
-    // Cleanup
+    
     await supabase.from('orders').delete().eq('id', orderProc[0].id);
   }
 }

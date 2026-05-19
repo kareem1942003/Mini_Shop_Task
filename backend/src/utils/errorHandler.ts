@@ -6,7 +6,7 @@ import { errorResponse } from './response';
 export function errorHandler(error: FastifyError | AppError, request: FastifyRequest, reply: FastifyReply) {
   request.log.error(error);
 
-  // 1. Zod validation errors (from fastify-type-provider-zod)
+  
   if (error instanceof ZodError || error.code === 'FST_ERR_VALIDATION') {
     let message = error.message;
 
@@ -19,14 +19,14 @@ export function errorHandler(error: FastifyError | AppError, request: FastifyReq
     return reply.status(400).send(errorResponse(message, 'Bad Request', 400));
   }
 
-  // 2. Our custom AppError
+  
   if (error instanceof AppError) {
     return reply.status(error.statusCode).send(
       errorResponse(error.message, error.code, error.statusCode)
     );
   }
 
-  // 3. Fastify native errors (404, etc.)
+  
   const statusCode = error.statusCode || 500;
   const title =
     statusCode === 401 ? 'Unauthorized'
