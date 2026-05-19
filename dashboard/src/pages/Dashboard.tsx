@@ -4,7 +4,7 @@ import { ShoppingBag, ShoppingCart, DollarSign, CalendarCheck } from 'lucide-rea
 import { KPISkeleton, TableSkeleton } from '../components/ui/Skeletons';
 
 const Dashboard = () => {
-  const { data: ordersData, isLoading: ordersLoading } = useGetOrdersQuery({ page: 1, limit: 100 });
+  const { data: ordersData, isLoading: ordersLoading } = useGetOrdersQuery({ page: 1, limit: 50 });
   const { data: productsData, isLoading: productsLoading } = useGetProductsQuery({ page: 1, limit: 1 });
 
   const orders = ordersData?.data?.orders || [];
@@ -41,7 +41,7 @@ const Dashboard = () => {
     { title: 'Orders Today', value: ordersToday, icon: <CalendarCheck size={24} className="text-blue-600" />, bg: 'bg-blue-100' },
     { title: 'Total Revenue', value: `$${totalRevenue.toFixed(2)}`, icon: <DollarSign size={24} className="text-emerald-600" />, bg: 'bg-emerald-100' },
     { title: 'Active Products', value: totalProducts, icon: <ShoppingBag size={24} className="text-purple-600" />, bg: 'bg-purple-100' },
-    { title: 'Total Orders', value: orders.length, icon: <ShoppingCart size={24} className="text-amber-600" />, bg: 'bg-amber-100' },
+    { title: 'Total Orders', value: ordersData?.data?.pagination?.total || 0, icon: <ShoppingCart size={24} className="text-amber-600" />, bg: 'bg-amber-100' },
   ];
 
   return (
